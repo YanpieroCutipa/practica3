@@ -17,8 +17,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+//CREAR USUARIOS
 builder.Services.AddScoped<ListarUsuarios, ListarUsuarios>();
+//LISTAR USUARIO
 builder.Services.AddScoped<ListarUsuario, ListarUsuario>();
+//CREAR USUARIO
+builder.Services.AddScoped<CrearUsuario, CrearUsuario>();
 
 var app = builder.Build();
 
