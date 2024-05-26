@@ -16,14 +16,19 @@ namespace practica3.Controllers
         private readonly ListarUsuarios _listUsers;
         private readonly ListarUsuario _unUser;
 
+        private readonly CrearUsuario _createUser;
+
         public UsuarioController(ILogger<UsuarioController> logger,
         ListarUsuarios listUsers,
-        ListarUsuario unUser)
+        ListarUsuario unUser,
+        //AGREGAMOS CREAR USUARIO
+        CrearUsuario createUser)
         {
             _logger = logger;
             _listUsers = listUsers;
             _unUser = unUser;
-        }
+             _createUser = createUser;
+        }   
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -37,6 +42,35 @@ namespace practica3.Controllers
         {
             Usuario user = await _unUser.GetUser(Id);
             return View(user);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create(string name, string job)
+        {
+            try
+            {
+                var response = await _createUser.CreateUser(name, job);
+                            if (response != null)
+                {
+                    TempData["SuccessMessage"] = "";
+                }
+                else
+                {
+                    ModelState.AddModelError("", "ERROR AL CREAR USUARIO");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"ERROR AL CREAR USUARIO: {ex.Message}");
+                ModelState.AddModelError("", "ERROR AL CREAR USUARIO");
+            }
+
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
