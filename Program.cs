@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using practica3.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using practica3.Integration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ListarUsuarios, ListarUsuarios>();
+builder.Services.AddScoped<ListarUsuario, ListarUsuario>();
 
 var app = builder.Build();
 
